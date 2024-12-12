@@ -15,9 +15,13 @@ public class DatabaseService : IDatabaseService
     public async Task<IEnumerable<Hotel>> GetHotels()
     {
         var sql = "SELECT HotelID, HotelName, City, Country FROM dbo.Hotel";
-        using var conn = new SqlConnection(
-            connectionString: Environment.GetEnvironmentVariable("SQLAZURECONNSTR_ContosoSuites")!
-        );
+        // var connString = "Server=tcp:4r3vrleyl2uiu.database.windows.net,1433;Initial Catalog=ContosoSuitesBookings;Persist Security Info=False;User ID=contosoadmin;Password=g@G9@2nD7C1BP%uh;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";        
+        
+        // using var conn = new SqlConnection(
+        //     connectionString: connString
+        // );
+        using var conn = new SqlConnection("Server=tcp:4r3vrleyl2uiu-sqlserver.database.windows.net,1433;Initial Catalog=ContosoSuitesBookings;Persist Security Info=False;User ID=contosoadmin;Password=g@G9@2nD7C1BP%uh;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+        
         conn.Open();
         using var cmd = new SqlCommand(sql, conn);
         using var reader = await cmd.ExecuteReaderAsync();
@@ -43,9 +47,10 @@ public class DatabaseService : IDatabaseService
     public async Task<IEnumerable<Booking>> GetBookingsForHotel(int hotelId)
     {
         var sql = "SELECT BookingID, CustomerID, HotelID, StayBeginDate, StayEndDate, NumberOfGuests FROM dbo.Booking WHERE HotelID = @HotelID";
-        using var conn = new SqlConnection(
-            connectionString: Environment.GetEnvironmentVariable("SQLAZURECONNSTR_ContosoSuites")!
-        );
+        // using var conn = new SqlConnection(
+        //     connectionString: Environment.GetEnvironmentVariable("SQLAZURECONNSTR_ContosoSuites")!
+        // );
+        using var conn = new SqlConnection("Server=tcp:4r3vrleyl2uiu-sqlserver.database.windows.net,1433;Initial Catalog=ContosoSuitesBookings;Persist Security Info=False;User ID=contosoadmin;Password=g@G9@2nD7C1BP%uh;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
         conn.Open();
         using var cmd = new SqlCommand(sql, conn);
         cmd.Parameters.AddWithValue("@HotelID", hotelId);
@@ -74,9 +79,10 @@ public class DatabaseService : IDatabaseService
     public async Task<IEnumerable<Booking>> GetBookingsByHotelAndMinimumDate(int hotelId, DateTime dt)
     {
         var sql = "SELECT BookingID, CustomerID, HotelID, StayBeginDate, StayEndDate, NumberOfGuests FROM dbo.Booking WHERE HotelID = @HotelID AND StayBeginDate >= @StayBeginDate";
-        using var conn = new SqlConnection(
-            connectionString: Environment.GetEnvironmentVariable("SQLAZURECONNSTR_ContosoSuites")!
-        );
+        // using var conn = new SqlConnection(
+        //     connectionString: Environment.GetEnvironmentVariable("SQLAZURECONNSTR_ContosoSuites")!
+        // );
+        using var conn = new SqlConnection("Server=tcp:4r3vrleyl2uiu-sqlserver.database.windows.net,1433;Initial Catalog=ContosoSuitesBookings;Persist Security Info=False;User ID=contosoadmin;Password=g@G9@2nD7C1BP%uh;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
         conn.Open();
         using var cmd = new SqlCommand(sql, conn);
         cmd.Parameters.AddWithValue("@HotelID", hotelId);
